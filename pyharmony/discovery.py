@@ -87,8 +87,11 @@ class Discovery:
         
         # Close the socket
         ping_sock.close()
-        listen_socket.shutdown(socket.SHUT_RDWR)
-        listen_socket.close()
+        try:
+            listen_socket.shutdown(socket.SHUT_RDWR)
+            listen_socket.close()
+        except OSError:
+            pass
         
         logger.info('Completed scan, %s hub(s) found.', len(hubs))
         return [hubs[h] for h in hubs]
